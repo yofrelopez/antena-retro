@@ -50,6 +50,7 @@ export const metadata: Metadata = {
 };
 
 import { Header, Footer } from "@/components/layout";
+import { PlayerBar } from "@/components/player";
 
 export default function RootLayout({
   children,
@@ -64,6 +65,7 @@ export default function RootLayout({
         <Header />
         <main>{children}</main>
         <Footer />
+        <PlayerBar />
       </body>
     </html>
   );

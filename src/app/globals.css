@@ -40,4 +40,5 @@ body {
 
 main {
   flex: 1;
+  padding-bottom: 72px; /* Espacio para el PlayerBar sticky */
 }
