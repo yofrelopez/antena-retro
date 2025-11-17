@@ -3,6 +3,12 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Radio colors - se sincronizarán con lib/config.ts en V2 */
+  --color-primary: #FF6B00;
+  --color-secondary: #1A1A1A;
+  --color-accent: #FFC107;
+  --color-text: #171717;
 }
 
 @theme inline {
@@ -23,4 +29,15 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Añadir espacio para el layout con header y footer */
+#__next {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
 }
