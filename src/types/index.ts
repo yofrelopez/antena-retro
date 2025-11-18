@@ -13,3 +13,7 @@ export type {
   News,
   NewsCategory,
 } from './content';
+
+export type {
+  HeroSlide,
+} from './hero';

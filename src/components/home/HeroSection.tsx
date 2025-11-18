@@ -1,70 +1,177 @@
-import { radioConfig } from "@/lib/config";
+"use client";
+
+import { useCallback, useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
 import { Container, Button } from "@/components/ui";
+import { heroSlides } from "@/lib/dummy-data";
 
 export function HeroSection() {
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { loop: true, duration: 30 },
+    [Autoplay({ delay: 5000, stopOnInteraction: false })]
+  );
+
+  const scrollPrev = useCallback(() => {
+    if (emblaApi) emblaApi.scrollPrev();
+  }, [emblaApi]);
+
+  const scrollNext = useCallback(() => {
+    if (emblaApi) emblaApi.scrollNext();
+  }, [emblaApi]);
+
+  const scrollTo = useCallback(
+    (index: number) => {
+      if (emblaApi) emblaApi.scrollTo(index);
+    },
+    [emblaApi]
+  );
+
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+
+    const onSelect = () => {
+      setSelectedIndex(emblaApi.selectedScrollSnap());
+    };
+
+    emblaApi.on("select", onSelect);
+    onSelect();
+
+    return () => {
+      emblaApi.off("select", onSelect);
+    };
+  }, [emblaApi]);
+
   return (
-    <section className="relative bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-accent)] py-20 md:py-32">
-      <Container>
-        <div className="relative z-10 text-center text-white">
-          {/* Main heading */}
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl mb-6">
-            {radioConfig.name}
-          </h1>
+    <section className="relative overflow-hidden">
+      <div className="embla" ref={emblaRef}>
+        <div className="embla__container flex">
+          {heroSlides.map((slide) => (
+            <div key={slide.id} className="embla__slide flex-[0_0_100%] relative">
+              {/* Background Image */}
+              <div className="relative h-[400px] md:h-[500px] lg:h-[600px]">
+                <Image
+                  src={slide.image}
+                  alt={slide.title}
+                  fill
+                  className="object-cover"
+                  priority={slide.id === "1"}
+                  sizes="100vw"
+                />
 
-          {/* Tagline */}
-          <p className="text-xl sm:text-2xl md:text-3xl font-medium mb-4 opacity-95">
-            {radioConfig.tagline}
-          </p>
+                {/* Overlay */}
+                {slide.overlay && (
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
+                )}
+              </div>
 
-          {/* Description */}
-          <p className="text-lg sm:text-xl max-w-2xl mx-auto mb-10 opacity-90">
-            {radioConfig.description}
-          </p>
+              {/* Content */}
+              <div className="absolute inset-0 flex items-center">
+                <Container>
+                  <div className="max-w-2xl text-white">
+                    {/* Subtitle */}
+                    {slide.subtitle && (
+                      <p className="text-lg md:text-xl font-medium mb-2 text-[var(--color-accent)]">
+                        {slide.subtitle}
+                      </p>
+                    )}
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button
-              size="lg"
-              variant="secondary"
-              className="w-full sm:w-auto min-w-[200px]"
-            >
-              <svg
-                className="h-5 w-5 mr-2"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M8 5v14l11-7z" />
-              </svg>
-              Escuchar en vivo
-            </Button>
+                    {/* Title */}
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
+                      {slide.title}
+                    </h1>
 
-            <Button
-              size="lg"
-              variant="outline"
-              className="w-full sm:w-auto min-w-[200px] bg-white/10 border-white text-white hover:bg-white hover:text-[var(--color-primary)]"
-            >
-              Ver programación
-            </Button>
-          </div>
+                    {/* Description */}
+                    {slide.description && (
+                      <p className="text-lg md:text-xl mb-8 opacity-90 max-w-xl">
+                        {slide.description}
+                      </p>
+                    )}
 
-          {/* Live indicator */}
-          <div className="mt-12 inline-flex items-center gap-3 bg-white/20 backdrop-blur-sm rounded-full px-6 py-3">
-            <span className="relative flex h-3 w-3">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
-              <span className="relative inline-flex rounded-full h-3 w-3 bg-white" />
-            </span>
-            <span className="text-sm font-medium uppercase tracking-wide">
-              Transmitiendo en vivo 24/7
-            </span>
-          </div>
+                    {/* CTA Buttons */}
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      {slide.ctaPrimary && (
+                        <Link href={slide.ctaPrimary.href}>
+                          <Button
+                            size="lg"
+                            className="w-full sm:w-auto min-w-[200px]"
+                          >
+                            {slide.ctaPrimary.text}
+                          </Button>
+                        </Link>
+                      )}
+
+                      {slide.ctaSecondary && (
+                        <Link href={slide.ctaSecondary.href}>
+                          <Button
+                            size="lg"
+                            variant="outline"
+                            className="w-full sm:w-auto min-w-[200px] border-white text-white hover:bg-white hover:text-[var(--color-primary)]"
+                          >
+                            {slide.ctaSecondary.text}
+                          </Button>
+                        </Link>
+                      )}
+                    </div>
+                  </div>
+                </Container>
+              </div>
+            </div>
+          ))}
         </div>
+      </div>
 
-        {/* Decorative elements */}
-        <div className="absolute inset-0 overflow-hidden opacity-10">
-          <div className="absolute -top-24 -right-24 w-96 h-96 bg-white rounded-full blur-3xl" />
-          <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-white rounded-full blur-3xl" />
-        </div>
-      </Container>
+      {/* Navigation Arrows (Desktop) */}
+      <button
+        onClick={scrollPrev}
+        className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 transition-colors"
+        aria-label="Slide anterior"
+      >
+        <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+
+      <button
+        onClick={scrollNext}
+        className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-10 w-12 h-12 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 transition-colors"
+        aria-label="Siguiente slide"
+      >
+        <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+
+      {/* Dots Navigation */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex gap-2">
+        {heroSlides.map((slide, index) => (
+          <button
+            key={slide.id}
+            onClick={() => scrollTo(index)}
+            className={`w-3 h-3 rounded-full transition-all ${
+              index === selectedIndex
+                ? "bg-white w-8"
+                : "bg-white/50 hover:bg-white/75"
+            }`}
+            aria-label={`Ir al slide ${index + 1}`}
+          />
+        ))}
+      </div>
+
+      {/* Live indicator */}
+      <div className="absolute top-6 right-6 z-10 inline-flex items-center gap-2 bg-red-600/90 backdrop-blur-sm rounded-full px-4 py-2">
+        <span className="relative flex h-2 w-2">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-white" />
+        </span>
+        <span className="text-xs font-medium uppercase tracking-wide text-white">
+          EN VIVO
+        </span>
+      </div>
     </section>
   );
 }
