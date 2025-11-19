@@ -1,10 +1,12 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Play, Pause, Volume2, VolumeX, Loader2 } from "lucide-react";
 import Image from "next/image";
 import { AudioVisualizer } from "./AudioVisualizer";
+import { VolumeControl } from "./VolumeControl";
+import { VolumeModal } from "./VolumeModal";
 import { radioConfig } from "@/lib/config";
 import { dummyPrograms } from "@/lib/dummy-data/programs";
 import { dummyHosts } from "@/lib/dummy-data/hosts";
@@ -55,6 +57,7 @@ export function RadioPlayer() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [currentProgram, setCurrentProgram] = useState<Program | null>(getCurrentProgram());
+  const [showVolumeModal, setShowVolumeModal] = useState(false);
 
   // Actualizar programa actual cada minuto
   useEffect(() => {
@@ -73,20 +76,7 @@ export function RadioPlayer() {
     }
   }, [volume]);
 
-  // Auto-retry en caso de error de conexión
-  useEffect(() => {
-    if (error && isPlaying) {
-      const retryTimeout = setTimeout(() => {
-        console.log("Intentando reconectar...");
-        setError(null);
-        togglePlay();
-      }, 3000);
-
-      return () => clearTimeout(retryTimeout);
-    }
-  }, [error, isPlaying]);
-
-  const togglePlay = async () => {
+  const togglePlay = useCallback(async () => {
     if (!audioRef.current) return;
 
     try {
@@ -98,10 +88,21 @@ export function RadioPlayer() {
         setIsLoading(true);
         setError(null);
         
-        // Intentar cargar y reproducir
-        audioRef.current.load();
-        await audioRef.current.play();
-        setIsPlaying(true);
+        // Intentar play directo primero (rápido)
+        try {
+          await audioRef.current.play();
+          setIsPlaying(true);
+        } catch (firstError) {
+          // Si falla, reload y retry una vez más
+          try {
+            audioRef.current.load();
+            await audioRef.current.play();
+            setIsPlaying(true);
+          } catch (secondError) {
+            // Error real después de ambos intentos
+            throw secondError;
+          }
+        }
       }
     } catch (err) {
       console.error("Error al reproducir:", err);
@@ -110,7 +111,20 @@ export function RadioPlayer() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [isPlaying]);
+
+  // Auto-retry en caso de error de conexión
+  useEffect(() => {
+    if (error && isPlaying) {
+      const retryTimeout = setTimeout(() => {
+        console.log("Intentando reconectar...");
+        setError(null);
+        togglePlay();
+      }, 3000);
+
+      return () => clearTimeout(retryTimeout);
+    }
+  }, [error, isPlaying, togglePlay]);
 
   const toggleMute = () => {
     if (audioRef.current) {
@@ -386,54 +400,23 @@ export function RadioPlayer() {
             </motion.div>
 
             {/* Volume Controls - Desktop */}
-            <motion.div
-              className="hidden sm:flex items-center gap-3"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4 }}
-            >
-              <motion.button
-                onClick={toggleMute}
-                className="p-2 rounded-full hover:bg-primary/10 text-foreground transition-colors"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                aria-label={isMuted ? "Activar sonido" : "Silenciar"}
-              >
-                {isMuted || volume === 0 ? (
-                  <VolumeX className="h-5 w-5" />
-                ) : (
-                  <Volume2 className="h-5 w-5" />
-                )}
-              </motion.button>
-
-              <div className="relative w-24 h-1.5 bg-border/50 rounded-full overflow-hidden group cursor-pointer">
-                <motion.div
-                  className="absolute inset-y-0 left-0 bg-linear-to-r from-primary to-secondary rounded-full"
-                  initial={{ width: 0 }}
-                  animate={{ width: `${volume * 100}%` }}
-                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                />
-                <input
-                  type="range"
-                  min="0"
-                  max="1"
-                  step="0.01"
-                  value={volume}
-                  onChange={handleVolumeChange}
-                  className="absolute inset-0 w-full opacity-0 cursor-pointer z-10"
-                  aria-label="Control de volumen"
-                />
-                
-                {/* Hover indicator */}
-                <div className="absolute inset-y-0 right-0 w-3 h-3 -top-1 bg-white border-2 border-primary rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
-                  style={{ left: `calc(${volume * 100}% - 6px)` }}
-                />
-              </div>
-
-              <span className="text-xs text-muted-foreground w-8 text-right font-medium">
-                {Math.round(volume * 100)}%
-              </span>
-            </motion.div>
+            <div className="hidden sm:block">
+              <VolumeControl
+                volume={volume}
+                isMuted={isMuted}
+                onVolumeChange={(newVolume) => {
+                  setVolume(newVolume);
+                  if (audioRef.current) {
+                    audioRef.current.volume = newVolume;
+                    if (newVolume > 0 && isMuted) {
+                      setIsMuted(false);
+                      audioRef.current.muted = false;
+                    }
+                  }
+                }}
+                onMuteToggle={toggleMute}
+              />
+            </div>
 
             {/* Live Badge */}
             <AnimatePresence>
@@ -460,13 +443,13 @@ export function RadioPlayer() {
               )}
             </AnimatePresence>
 
-            {/* Volume Mobile - Solo icono */}
+            {/* Volume Mobile - Modal trigger */}
             <motion.button
-              onClick={toggleMute}
+              onClick={() => setShowVolumeModal(true)}
               className="sm:hidden p-2 rounded-full hover:bg-primary/10 text-foreground transition-colors"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              aria-label={isMuted ? "Activar sonido" : "Silenciar"}
+              aria-label="Abrir control de volumen"
             >
               {isMuted || volume === 0 ? (
                 <VolumeX className="h-5 w-5" />
@@ -477,6 +460,25 @@ export function RadioPlayer() {
           </div>
         </div>
       </div>
+
+      {/* Volume Modal - Mobile */}
+      <VolumeModal
+        isOpen={showVolumeModal}
+        onClose={() => setShowVolumeModal(false)}
+        volume={volume}
+        isMuted={isMuted}
+        onVolumeChange={(newVolume) => {
+          setVolume(newVolume);
+          if (audioRef.current) {
+            audioRef.current.volume = newVolume;
+            if (newVolume > 0 && isMuted) {
+              setIsMuted(false);
+              audioRef.current.muted = false;
+            }
+          }
+        }}
+        onMuteToggle={toggleMute}
+      />
     </motion.div>
   );
 }

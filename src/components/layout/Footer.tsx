@@ -187,7 +187,7 @@ export function Footer() {
       </Container>
 
       {/* Bottom Bar - Full Width */}
-      <div className="mt-12 py-6 bg-zinc-200/20">
+      <div className="mt-12 pt-2 pb-6 md:pb-12 bg-zinc-200/20">
         <Container>
           <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-row sm:items-center sm:justify-between">
             
