@@ -4,9 +4,11 @@ export interface Program {
   id: string;
   name: string;
   description: string;
-  imageUrl: string;
+  imageUrl: string; // Imagen principal del programa
+  logoUrl?: string; // Logo del programa
   hosts: string[]; // IDs de los hosts/locutores
   schedule: ProgramSchedule[];
+  tags?: string[]; // Géneros, categorías, etc.
 }
 
 export interface ProgramSchedule {
@@ -18,6 +20,7 @@ export interface ProgramSchedule {
 export interface Host {
   id: string;
   name: string;
+  role?: string; // DJ, Conductor, Locutor, etc.
   bio: string;
   imageUrl: string;
   social?: {

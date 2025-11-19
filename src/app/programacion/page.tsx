@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/ui";
-import { ScheduleGrid } from "@/components/programacion/ScheduleGrid";
+import { ProgramSchedule } from "@/components/programacion/ProgramSchedule";
+import { Radio } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Programación",
@@ -11,19 +12,32 @@ export default function ProgramacionPage() {
   return (
     <div className="py-16 md:py-24">
       <Container>
-        {/* Header */}
-        <div className="mb-12 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-[var(--color-secondary)] mb-4">
-            Programación Semanal
+        {/* Hero Section */}
+        <div className="mb-16 text-center space-y-6">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full border border-primary/20">
+            <Radio className="w-4 h-4 text-primary" />
+            <span className="text-sm font-semibold text-primary">
+              Programación 24/7
+            </span>
+          </div>
+
+          {/* Title */}
+          <h1 className="text-5xl md:text-6xl font-bold">
+            <span className="bg-linear-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
+              Nuestra Programación
+            </span>
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Descubre todos nuestros programas y sus horarios. Nunca te pierdas
-            tu show favorito.
+
+          {/* Description */}
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            Descubre todos nuestros programas y sus horarios. La mejor música y 
+            entretenimiento las 24 horas del día, los 7 días de la semana.
           </p>
         </div>
 
         {/* Schedule */}
-        <ScheduleGrid />
+        <ProgramSchedule />
       </Container>
     </div>
   );

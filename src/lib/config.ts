@@ -82,6 +82,85 @@ export const radioConfig = {
   features: {
     darkMode: true,
   },
+
+  // About page data
+  about: {
+    // Stats/Metrics
+    stats: {
+      yearsOnAir: 15,
+      totalPrograms: 24,
+      teamMembers: 12,
+      listeners: "50K+",
+    },
+
+    // Mission & Vision
+    mission: {
+      title: "Nuestra Misión",
+      description: "Conectar con nuestra audiencia a través de música excepcional, noticias relevantes y programas que inspiran, entretienen e informan a nuestra comunidad las 24 horas del día.",
+    },
+
+    vision: {
+      title: "Nuestra Visión",
+      description: "Ser la radio online de referencia, reconocida por la calidad de nuestra programación y nuestro compromiso con la excelencia en la radiodifusión.",
+    },
+
+    // Core Values
+    values: [
+      {
+        id: "quality",
+        icon: "Award",
+        title: "Calidad",
+        description: "Nos comprometemos a ofrecer contenido de la más alta calidad, cuidadosamente seleccionado para nuestra audiencia.",
+      },
+      {
+        id: "innovation",
+        icon: "Zap",
+        title: "Innovación",
+        description: "Adoptamos las últimas tecnologías para brindar la mejor experiencia de radio online a nuestros oyentes.",
+      },
+      {
+        id: "community",
+        icon: "Users",
+        title: "Comunidad",
+        description: "Valoramos a nuestra comunidad de oyentes y nos esforzamos por ser su voz y compañía diaria.",
+      },
+      {
+        id: "diversity",
+        icon: "Sparkles",
+        title: "Diversidad",
+        description: "Celebramos la diversidad musical y cultural, ofreciendo una programación variada e inclusiva.",
+      },
+    ],
+
+    // Timeline/History
+    timeline: [
+      {
+        year: 2010,
+        title: "Nuestros Inicios",
+        description: "Comenzamos como una pequeña radio online con la pasión por compartir buena música y contenido de calidad.",
+      },
+      {
+        year: 2014,
+        title: "Expansión Digital",
+        description: "Implementamos streaming de alta calidad y lanzamos nuestras plataformas en redes sociales, multiplicando nuestra audiencia.",
+      },
+      {
+        year: 2018,
+        title: "Renovación Total",
+        description: "Rediseñamos completamente nuestra imagen, programación y plataforma web, estableciendo nuevos estándares de calidad.",
+      },
+      {
+        year: 2022,
+        title: "Reconocimiento Nacional",
+        description: "Alcanzamos 50,000 oyentes mensuales y recibimos premios por nuestra innovación en radiodifusión digital.",
+      },
+      {
+        year: 2025,
+        title: "Presente y Futuro",
+        description: "Continuamos innovando con tecnología de vanguardia, manteniéndonos como referente en radio online.",
+      },
+    ],
+  },
 } as const;
 
 export type RadioConfig = typeof radioConfig;

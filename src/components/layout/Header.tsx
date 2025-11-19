@@ -105,7 +105,7 @@ export function Header() {
             color="primary"
             variant="flat"
             size="sm"
-            className="font-medium text-xs px-2 max-w-[140px] h-auto py-1.5 whitespace-normal leading-tight"
+            className="font-medium text-xs px-2 max-w-[140px] h-auto py-1.5 whitespace-normal leading-tight rounded-full"
             startContent={<Play size={18} className="text-primary" fill="currentColor" strokeWidth={0} />}
           >
             <span className="text-secondary">{radioConfig.name}</span>
@@ -137,9 +137,22 @@ export function Header() {
                 </NavbarItem>
                 <DropdownMenu
                   aria-label={`${item.label} menu`}
-                  className="w-[200px]"
+                  classNames={{
+                    base: 'bg-background/95 backdrop-blur-xl border border-border/50 rounded-xl shadow-xl shadow-primary/5 p-2',
+                  }}
                   itemClasses={{
-                    base: 'gap-4',
+                    base: [
+                      'rounded-lg',
+                      'data-[hover=true]:bg-primary/10',
+                      'data-[hover=true]:text-primary',
+                      'transition-all',
+                      'duration-200',
+                      'px-3',
+                      'py-2.5',
+                      'mb-1',
+                      'last:mb-0',
+                    ],
+                    title: 'text-sm font-medium',
                   }}
                 >
                   {item.children.map((child) => (
@@ -185,7 +198,7 @@ export function Header() {
             color="primary"
             variant="flat"
             size="sm"
-            className="font-medium"
+            className="font-medium rounded-full"
             startContent={
               <div className="h-2 w-2 bg-red-500 rounded-full animate-pulse" />
             }
@@ -266,7 +279,7 @@ export function Header() {
             color="primary"
             variant="shadow"
             size="lg"
-            className="font-semibold w-full"
+            className="font-semibold w-full rounded-full"
             startContent={
               <div className="h-2.5 w-2.5 bg-white rounded-full animate-pulse" />
             }
