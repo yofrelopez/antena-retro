@@ -54,7 +54,7 @@ export const metadata: Metadata = {
 };
 
 import { Header, Footer } from "@/components/layout";
-import { PlayerBar } from "@/components/player";
+import { RadioPlayer } from "@/components/player";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { HeroUIProvider } from "@/components/providers/heroui-provider";
 
@@ -77,7 +77,7 @@ export default function RootLayout({
             <Header />
             <main className="bg-background">{children}</main>
             <Footer />
-            <PlayerBar />
+            <RadioPlayer />
           </HeroUIProvider>
         </ThemeProvider>
       </body>

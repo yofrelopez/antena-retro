@@ -10,7 +10,7 @@ export const radioConfig = {
 
   // Streaming
   streaming: {
-    url: "https://streaming.ejemplo.com/radio.mp3",
+    url: "https://panel.foxradios.com:8100/radioantena9retro",
     format: "mp3" as const,
     autoplay: false,
     defaultVolume: 0.7,
