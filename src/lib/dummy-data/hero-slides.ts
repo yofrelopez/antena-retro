@@ -5,7 +5,7 @@ export const heroSlides: HeroSlide[] = [
     id: "1",
     image: "/images/hero/slide_1.png",
     title: "Tu Música, Tu Radio",
-    subtitle: "Radio Ejemplo",
+    subtitle: "Antena Retro",
     description: "La mejor música las 24 horas del día, los 7 días de la semana. Sintoniza y déjate llevar.",
     ctaPrimary: {
       text: "Escuchar en vivo",

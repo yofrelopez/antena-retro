@@ -36,7 +36,7 @@ export const dummyPrograms: Program[] = [
     name: "Zona Electrónica",
     description:
       "House, techno, trance y todo lo mejor de la música electrónica. Déjate llevar por el ritmo.",
-    imageUrl: "https://images.unsplash.com/photo-1571266028243-d220c6e87751?w=600",
+    imageUrl: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=600",
     hosts: ["2"],
     schedule: [
       { dayOfWeek: "viernes", startTime: "22:00", endTime: "00:00" },

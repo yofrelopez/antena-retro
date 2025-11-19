@@ -53,7 +53,7 @@ export function HeroSection() {
           {heroSlides.map((slide) => (
             <div key={slide.id} className="embla__slide flex-[0_0_100%] relative">
               {/* Background Image */}
-              <div className="relative h-[400px] md:h-[500px] lg:h-[600px]">
+              <div className="relative h-[50vh] md:h-[600px] lg:h-[700px]">
                 <Image
                   src={slide.image}
                   alt={slide.title}
@@ -63,54 +63,104 @@ export function HeroSection() {
                   sizes="100vw"
                 />
 
-                {/* Overlay */}
+                {/* Overlay - solo en desktop */}
                 {slide.overlay && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-transparent" />
+                  <div className="hidden md:block absolute inset-0 bg-linear-to-r from-black/70 via-black/50 to-transparent" />
                 )}
-              </div>
+                
+                {/* Content overlay for desktop */}
+                <div className="hidden md:flex absolute inset-0 items-center">
+                  <Container>
+                    <div className="max-w-2xl text-white">
+                      {/* Subtitle */}
+                      {slide.subtitle && (
+                        <p className="text-lg lg:text-xl font-medium mb-2 text-accent">
+                          {slide.subtitle}
+                        </p>
+                      )}
 
-              {/* Content */}
-              <div className="absolute inset-0 flex items-center">
-                <Container>
-                  <div className="max-w-2xl text-white">
+                      {/* Title */}
+                      <h1 className="text-5xl lg:text-6xl font-bold mb-4 leading-tight">
+                        {slide.title}
+                      </h1>
+
+                      {/* Description */}
+                      {slide.description && (
+                        <p className="text-lg lg:text-xl mb-8 opacity-90 max-w-xl">
+                          {slide.description}
+                        </p>
+                      )}
+
+                      {/* CTA Buttons */}
+                      <div className="flex flex-row gap-4">
+                        {slide.ctaPrimary && (
+                          <Link href={slide.ctaPrimary.href}>
+                            <Button
+                              size="md"
+                              className="w-auto min-w-[180px] whitespace-nowrap"
+                            >
+                              {slide.ctaPrimary.text}
+                            </Button>
+                          </Link>
+                        )}
+
+                        {slide.ctaSecondary && (
+                          <Link href={slide.ctaSecondary.href}>
+                            <Button
+                              size="md"
+                              variant="secondary"
+                              className="w-auto min-w-[180px] whitespace-nowrap"
+                            >
+                              {slide.ctaSecondary.text}
+                            </Button>
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+                  </Container>
+                </div>
+                
+                {/* Content overlay for mobile - bottom */}
+                <div className="md:hidden absolute bottom-0 left-0 right-0 p-4 bg-linear-to-t from-black/80 to-transparent">
+                  <div className="text-white">
                     {/* Subtitle */}
                     {slide.subtitle && (
-                      <p className="text-lg md:text-xl font-medium mb-2 text-[var(--color-accent)]">
+                      <p className="text-xs font-medium mb-1 text-accent uppercase tracking-wide">
                         {slide.subtitle}
                       </p>
                     )}
 
                     {/* Title */}
-                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
+                    <h1 className="text-xl font-bold mb-2 leading-tight">
                       {slide.title}
                     </h1>
 
                     {/* Description */}
                     {slide.description && (
-                      <p className="text-lg md:text-xl mb-8 opacity-90 max-w-xl">
+                      <p className="text-sm mb-3 opacity-90">
                         {slide.description}
                       </p>
                     )}
 
                     {/* CTA Buttons */}
-                    <div className="flex flex-col sm:flex-row gap-4">
+                    <div className="flex flex-row gap-2">
                       {slide.ctaPrimary && (
                         <Link href={slide.ctaPrimary.href}>
                           <Button
-                            size="lg"
-                            className="w-full sm:w-auto min-w-[200px]"
+                            size="sm"
+                            className="whitespace-nowrap text-xs"
                           >
                             {slide.ctaPrimary.text}
                           </Button>
                         </Link>
                       )}
-
+                      
                       {slide.ctaSecondary && (
                         <Link href={slide.ctaSecondary.href}>
                           <Button
-                            size="lg"
-                            variant="outline"
-                            className="w-full sm:w-auto min-w-[200px] border-white text-white hover:bg-white hover:text-[var(--color-primary)]"
+                            size="sm"
+                            variant="secondary"
+                            className="whitespace-nowrap text-xs"
                           >
                             {slide.ctaSecondary.text}
                           </Button>
@@ -118,7 +168,7 @@ export function HeroSection() {
                       )}
                     </div>
                   </div>
-                </Container>
+                </div>
               </div>
             </div>
           ))}
@@ -147,7 +197,7 @@ export function HeroSection() {
       </button>
 
       {/* Dots Navigation */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-10 flex gap-2">
+      <div className="hidden md:flex absolute bottom-6 left-1/2 -translate-x-1/2 z-10 gap-2">
         {heroSlides.map((slide, index) => (
           <button
             key={slide.id}
@@ -163,7 +213,7 @@ export function HeroSection() {
       </div>
 
       {/* Live indicator */}
-      <div className="absolute top-6 right-6 z-10 inline-flex items-center gap-2 bg-red-600/90 backdrop-blur-sm rounded-full px-4 py-2">
+      <div className="hidden md:inline-flex absolute top-6 right-6 z-10 items-center gap-2 bg-red-600/90 backdrop-blur-sm rounded-full px-4 py-2">
         <span className="relative flex h-2 w-2">
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
           <span className="relative inline-flex rounded-full h-2 w-2 bg-white" />

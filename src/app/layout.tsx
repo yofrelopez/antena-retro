@@ -45,12 +45,18 @@ export const metadata: Metadata = {
     images: [radioConfig.branding.ogImage],
   },
   icons: {
-    icon: radioConfig.branding.favicon,
+    icon: [
+      { url: radioConfig.branding.favicon },
+      { url: radioConfig.branding.logoIcon, type: "image/png" },
+    ],
+    apple: radioConfig.branding.logoIcon,
   },
 };
 
 import { Header, Footer } from "@/components/layout";
 import { PlayerBar } from "@/components/player";
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import { HeroUIProvider } from "@/components/providers/heroui-provider";
 
 export default function RootLayout({
   children,
@@ -58,14 +64,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang={radioConfig.seo.lang}>
+    <html lang={radioConfig.seo.lang} suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header />
-        <main>{children}</main>
-        <Footer />
-        <PlayerBar />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+        >
+          <HeroUIProvider>
+            <Header />
+            <main className="bg-background">{children}</main>
+            <Footer />
+            <PlayerBar />
+          </HeroUIProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

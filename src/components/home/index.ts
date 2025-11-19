@@ -1,3 +1,3 @@
 export { HeroSection } from "./HeroSection";
-export { LatestNews } from "./LatestNews";
-export { FeaturedPrograms } from "./FeaturedPrograms";
+export { ProgramShowcase } from "./ProgramShowcase";
+export { NewsHighlights } from "./NewsHighlights";

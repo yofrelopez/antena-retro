@@ -42,7 +42,7 @@ export function NowPlaying() {
           className="h-12 w-12 rounded object-cover"
         />
       ) : (
-        <div className="h-12 w-12 rounded bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-accent)] flex items-center justify-center">
+        <div className="h-12 w-12 rounded bg-linear-to-br from-(--color-primary) to-(--color-accent) flex items-center justify-center">
           <svg
             className="h-6 w-6 text-white"
             fill="currentColor"
@@ -55,7 +55,7 @@ export function NowPlaying() {
 
       {/* Song info */}
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium text-[var(--color-secondary)] truncate">
+        <p className="text-sm font-medium text-(--color-secondary) truncate">
           {nowPlaying.title}
         </p>
         <p className="text-xs text-gray-600 truncate">{nowPlaying.artist}</p>

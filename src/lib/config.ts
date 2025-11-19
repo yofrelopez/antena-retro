@@ -4,7 +4,7 @@
 
 export const radioConfig = {
   // Información básica
-  name: "Radio Ejemplo",
+  name: "Antena Retro",
   tagline: "Tu música, tu radio",
   description: "La mejor música de tu ciudad las 24 horas del día",
 
@@ -18,17 +18,20 @@ export const radioConfig = {
 
   // Branding
   branding: {
-    logo: "/logo.svg",
-    logoAlt: "Logo de Radio Ejemplo",
+    logo: "/logos/logo_1.png",        // Logo principal (header, fondos claros)
+    logoWhite: "/logos/logo_1_reverse.png", // Logo invertido (footer, fondos oscuros)
+    logoIcon: "/logos/logo_icon.png",        // Solo ícono (favicon, mobile)
+    logoAlt: "Logo de Antena Retro",
     favicon: "/favicon.ico",
     ogImage: "/og-image.jpg",
   },
 
   // Colores (tema principal)
   colors: {
-    primary: "#FF6B00",
-    secondary: "#1A1A1A",
-    accent: "#FFC107",
+    primary: "#F56329",    // Naranja vibrante
+    secondary: "#6329F5",  // Violeta/Púrpura
+    accent: "#29BBF5",     // Azul cielo
+    success: "#BBF529",    // Lima/Verde claro
     background: "#FFFFFF",
     text: "#171717",
   },
