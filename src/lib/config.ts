@@ -10,7 +10,7 @@ export const radioConfig = {
 
   // Streaming
   streaming: {
-    url: "https://panel.foxradios.com:8100/radioantena9retro",
+    url: "https://panel.foxradios.com:8100/radioantena9retro?xlms-icecast",
     format: "mp3" as const,
     autoplay: false,
     defaultVolume: 0.7,

@@ -88,43 +88,27 @@ export function RadioPlayer() {
         setIsLoading(true);
         setError(null);
         
-        // Intentar play directo primero (rápido)
-        try {
-          await audioRef.current.play();
-          setIsPlaying(true);
-        } catch (firstError) {
-          // Si falla, reload y retry una vez más
-          try {
-            audioRef.current.load();
-            await audioRef.current.play();
-            setIsPlaying(true);
-          } catch (secondError) {
-            // Error real después de ambos intentos
-            throw secondError;
-          }
-        }
+        // Intentar play directo
+        await audioRef.current.play();
+        setIsPlaying(true);
       }
     } catch (err) {
       console.error("Error al reproducir:", err);
-      setError("Error de conexión");
+      setError("Error de conexión. Verifica tu conexión a internet.");
       setIsPlaying(false);
     } finally {
       setIsLoading(false);
     }
   }, [isPlaying]);
 
-  // Auto-retry en caso de error de conexión
+  // Manejar errores de conexión
   useEffect(() => {
-    if (error && isPlaying) {
-      const retryTimeout = setTimeout(() => {
-        console.log("Intentando reconectar...");
-        setError(null);
-        togglePlay();
-      }, 3000);
-
-      return () => clearTimeout(retryTimeout);
+    if (error) {
+      // Limpiar estado al detectar error
+      setIsPlaying(false);
+      setIsLoading(false);
     }
-  }, [error, isPlaying, togglePlay]);
+  }, [error]);
 
   const toggleMute = () => {
     if (audioRef.current) {
@@ -149,8 +133,28 @@ export function RadioPlayer() {
     }
   };
 
-  const handleError = () => {
-    setError("No se pudo conectar al stream");
+  const handleError = (e: React.SyntheticEvent<HTMLAudioElement, Event>) => {
+    const audio = e.currentTarget;
+    const errorCode = audio.error?.code;
+    
+    let errorMessage = "Error al reproducir el stream";
+    
+    switch (errorCode) {
+      case MediaError.MEDIA_ERR_NETWORK:
+        errorMessage = "Error de red. Verifica tu conexión.";
+        break;
+      case MediaError.MEDIA_ERR_DECODE:
+        errorMessage = "Error al decodificar el audio.";
+        break;
+      case MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED:
+        errorMessage = "Formato de audio no soportado.";
+        break;
+      case MediaError.MEDIA_ERR_ABORTED:
+        errorMessage = "Reproducción cancelada.";
+        break;
+    }
+    
+    setError(errorMessage);
     setIsPlaying(false);
     setIsLoading(false);
   };
@@ -183,7 +187,7 @@ export function RadioPlayer() {
             >
               <div className="px-4 py-2 text-center">
                 <p className="text-xs text-red-500 font-medium">
-                  {error} - Reintentando...
+                  {error}
                 </p>
               </div>
             </motion.div>
@@ -199,10 +203,8 @@ export function RadioPlayer() {
               src={radioConfig.streaming.url}
               preload="none"
               onCanPlay={handleCanPlay}
-              onWaiting={() => setIsLoading(true)}
               onPlaying={() => setIsLoading(false)}
               onError={handleError}
-              onStalled={() => setIsLoading(true)}
             />
 
             {/* Play/Pause Button */}
