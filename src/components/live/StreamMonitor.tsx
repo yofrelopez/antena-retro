@@ -81,7 +81,7 @@ export function StreamMonitor() {
         {/* Now Playing Info - Refinado y Responsive */}
         <div className="text-center">
           <motion.h1 
-            className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-white via-primary/90 to-secondary/80 bg-clip-text text-transparent mb-2 tracking-tight"
+            className="text-2xl md:text-3xl font-bold bg-linear-to-r from-white via-primary/90 to-secondary/80 bg-clip-text text-transparent mb-2 tracking-tight"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}

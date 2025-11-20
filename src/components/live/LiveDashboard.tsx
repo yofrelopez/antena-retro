@@ -27,7 +27,7 @@ export function LiveDashboard() {
             <div>
               <ListenerStats />
             </div>
-            <div className="min-h-[240px]">
+            <div className="min-h-60">
               <QuotesTicker />
             </div>
           </div>
@@ -41,10 +41,10 @@ export function LiveDashboard() {
             
             {/* Historial + Calidad - 2 columnas */}
             <div className="grid grid-cols-2 gap-4">
-              <div className="min-h-[320px]">
+              <div className="min-h-80">
                 <PlayHistory />
               </div>
-              <div className="min-h-[320px]">
+              <div className="min-h-80">
                 <StreamMetrics />
               </div>
             </div>

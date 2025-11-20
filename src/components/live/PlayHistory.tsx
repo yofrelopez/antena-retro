@@ -27,7 +27,7 @@ export function PlayHistory() {
         </div>
 
         {/* Scrollable Track List */}
-        <div className="overflow-y-auto pr-2 space-y-2 max-h-[240px] [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/5 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/10">
+        <div className="overflow-y-auto pr-2 space-y-2 max-h-60 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/5 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/10">
           {dummyHistory.map((track, i) => (
             <motion.div
               key={track.id}
