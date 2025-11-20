@@ -10,6 +10,10 @@ export const navigationItems: NavItem[] = [
     href: '/',
   },
   {
+    label: 'En Vivo',
+    href: '/live',
+  },
+  {
     label: 'Programación',
     href: '/programacion',
     children: [

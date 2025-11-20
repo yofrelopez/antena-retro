@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from 'react'
 import { useTheme } from 'next-themes'
+import { usePathname } from 'next/navigation'
 import { radioConfig } from "@/lib/config";
 import { Container } from "@/components/ui";
 
@@ -68,13 +69,17 @@ export function Footer() {
   const currentYear = new Date().getFullYear();
   const { resolvedTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
+  const pathname = usePathname()
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
+  // En /live no hay player, no necesitamos padding inferior
+  const isLivePage = pathname === '/live'
+
   return (
-    <footer className="relative pb-18 bg-muted/20">
+    <footer className={`relative bg-muted/20 ${isLivePage ? 'pb-0' : 'pb-22 md:pb-26'}`}>
       <Container>
         <div className="pt-16 pb-4">
 
@@ -187,7 +192,7 @@ export function Footer() {
       </Container>
 
       {/* Bottom Bar - Full Width */}
-      <div className="mt-12 pt-2 pb-6 md:pb-12 bg-zinc-200/20">
+      <div className="mt-12 pt-2 pb-2 bg-zinc-200/20">
         <Container>
           <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-row sm:items-center sm:justify-between">
             

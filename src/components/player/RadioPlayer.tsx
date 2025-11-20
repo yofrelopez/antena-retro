@@ -2,8 +2,9 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, Pause, Volume2, VolumeX, Loader2 } from "lucide-react";
+import { Play, Pause, Volume2, VolumeX, Loader2, Radio } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { AudioVisualizer } from "./AudioVisualizer";
 import { VolumeControl } from "./VolumeControl";
 import { VolumeModal } from "./VolumeModal";
@@ -419,6 +420,15 @@ export function RadioPlayer() {
                 onMuteToggle={toggleMute}
               />
             </div>
+
+            {/* Dashboard Link - Desktop */}
+            <Link
+              href="/live"
+              className="hidden md:flex items-center gap-2 px-3 py-2 rounded-lg bg-primary/10 hover:bg-primary/20 border border-primary/20 hover:border-primary/30 transition-colors group"
+            >
+              <Radio className="h-4 w-4 text-primary" />
+              <span className="text-xs font-medium text-primary">Dashboard</span>
+            </Link>
 
             {/* Live Badge */}
             <AnimatePresence>
