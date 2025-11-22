@@ -16,7 +16,7 @@ const publicDir = path.join(__dirname, '..', 'public');
 // Mapeo de imágenes fuente a imágenes OG optimizadas
 const imageMap = [
   {
-    source: 'images/hero/slide_1.jpg',
+    source: 'images/hero/slide_6.jpeg',
     output: 'og-default.jpg',
     description: 'Home / Default'
   },
