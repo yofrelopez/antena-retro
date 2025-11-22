@@ -2,11 +2,23 @@ import type { Metadata } from "next";
 import { Container } from "@/components/ui";
 import { ProgramSchedule } from "@/components/programacion/ProgramSchedule";
 import { Radio } from "lucide-react";
+import { generatePageMetadata } from "@/lib/metadata";
+import { radioConfig } from "@/lib/config";
 
-export const metadata: Metadata = {
-  title: "Programación",
-  description: "Conoce nuestra programación semanal con los mejores programas y shows.",
-};
+export const metadata: Metadata = generatePageMetadata({
+  title: "Programación Semanal - Horarios y Programas",
+  description: `Consulta la programación completa de ${radioConfig.name}. Horarios de tus programas favoritos, música, noticias y entretenimiento las 24 horas.`,
+  keywords: [
+    "programación radio",
+    "horarios programas",
+    "parrilla programación",
+    "programas de radio",
+    "guía de programación",
+  ],
+  url: `${radioConfig.seo.siteUrl}/programacion`,
+  category: "Programación",
+  image: "/og-programacion.jpg",
+});
 
 export default function ProgramacionPage() {
   return (

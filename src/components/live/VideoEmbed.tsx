@@ -3,8 +3,8 @@
 import { motion } from "framer-motion";
 import { Video, ExternalLink } from "lucide-react";
 
-// Por ahora un placeholder - luego podrás configurar tu URL de YouTube/Twitch
-const VIDEO_EMBED_URL = "";
+// Video embed de cámara en vivo de Tokio, Japón (sin audio)
+const VIDEO_EMBED_URL = "https://www.youtube.com/embed/gFRtAAmiFbE?autoplay=1&mute=1&rel=0&showinfo=0&controls=0&modestbranding=1";
 
 export function VideoEmbed() {
   return (
@@ -37,8 +37,10 @@ export function VideoEmbed() {
           <iframe
             src={VIDEO_EMBED_URL}
             className="absolute inset-0 w-full h-full"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allow="autoplay; fullscreen"
             allowFullScreen
+            referrerPolicy="strict-origin-when-cross-origin"
+            style={{ border: 0 }}
           />
         ) : (
           // Placeholder cuando no hay video configurado

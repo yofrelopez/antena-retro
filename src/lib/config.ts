@@ -23,7 +23,7 @@ export const radioConfig = {
     logoIcon: "/logos/logo_icon.png",        // Solo ícono (favicon, mobile)
     logoAlt: "Logo de Antena Retro",
     favicon: "/favicon.ico",
-    ogImage: "/og-image.jpg",
+    ogImage: "/og-default.jpg",
   },
 
   // Colores (tema principal)
@@ -60,14 +60,18 @@ export const radioConfig = {
 
   // SEO y metadatos
   seo: {
-    siteUrl: "https://radioejemplo.com",
+    siteUrl: "https://antena-retro.vercel.app",
     lang: "es",
-    timezone: "Europe/Madrid",
+    timezone: "America/Lima",
     keywords: [
       "radio online",
+      "radio en vivo",
       "música en vivo",
       "radio streaming",
-      "radio local",
+      "radio Perú",
+      "radio Lima",
+      "música retro",
+      "radio 24/7",
     ] as string[],
   },
 

@@ -50,7 +50,19 @@ export function getListenerStats(data: AzuraCastNowPlaying) {
 }
 
 export function getSongHistory(data: AzuraCastNowPlaying) {
-  return data.song_history.map((item) => ({
+  // Incluir la canción actual como primer elemento
+  const currentSong = {
+    id: `current-${data.now_playing.song.id}`,
+    title: data.now_playing.song.title,
+    artist: data.now_playing.song.artist,
+    album: data.now_playing.song.album,
+    artwork: data.now_playing.song.art,
+    playedAt: new Date(), // Ahora
+    duration: data.now_playing.duration,
+  };
+
+  // Mapear el historial sin duplicar la canción actual
+  const history = data.song_history.map((item) => ({
     id: item.song.id,
     title: item.song.title,
     artist: item.song.artist,
@@ -59,6 +71,8 @@ export function getSongHistory(data: AzuraCastNowPlaying) {
     playedAt: new Date(item.played_at * 1000),
     duration: item.duration,
   }));
+
+  return [currentSong, ...history];
 }
 
 export function getStreamStatus(data: AzuraCastNowPlaying) {

@@ -101,7 +101,7 @@ export function Header() {
         <NavbarItem>
           <Button
             as={Link}
-            href="/#player"
+            href="/live"
             color="primary"
             variant="flat"
             size="sm"
@@ -194,7 +194,7 @@ export function Header() {
         <NavbarItem className="hidden md:flex">
           <Button
             as={Link}
-            href="/#player"
+            href="/live"
             color="primary"
             variant="flat"
             size="sm"
@@ -275,7 +275,7 @@ export function Header() {
         <NavbarMenuItem>
           <Button
             as={Link}
-            href="/#player"
+            href="/live"
             color="primary"
             variant="shadow"
             size="lg"
