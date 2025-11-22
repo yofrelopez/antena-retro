@@ -2,6 +2,38 @@ import type { HeroSlide } from "@/types";
 
 export const heroSlides: HeroSlide[] = [
   {
+    id: "5",
+    image: "/images/hero/silede_5.png",
+    title: "Descubre Nuevos Ritmos",
+    subtitle: "Lo mejor de la música",
+    description: "Exploramos géneros y artistas que marcan tendencia. Déjate sorprender cada día.",
+    ctaPrimary: {
+      text: "Escuchar ahora",
+      href: "#player",
+    },
+    ctaSecondary: {
+      text: "Ver programas",
+      href: "/programas",
+    },
+    overlay: true,
+  },
+  {
+    id: "6",
+    image: "/images/hero/slide_6.jpeg",
+    title: "Conecta con tu Comunidad",
+    subtitle: "Tu radio local",
+    description: "Noticias, eventos y toda la información que necesitas de tu ciudad en un solo lugar.",
+    ctaPrimary: {
+      text: "Ver noticias",
+      href: "/noticias",
+    },
+    ctaSecondary: {
+      text: "Sobre nosotros",
+      href: "/nosotros",
+    },
+    overlay: true,
+  },
+  {
     id: "1",
     image: "/images/hero/slide_1.png",
     title: "Tu Música, Tu Radio",

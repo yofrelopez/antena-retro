@@ -17,6 +17,9 @@ importers:
       '@heroui/system':
         specifier: ^2.4.23
         version: 2.4.23(@heroui/theme@2.4.23(tailwindcss@4.1.17))(framer-motion@12.23.24(react-dom@19.2.0(react@19.2.0))(react@19.2.0))(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+      audiomotion-analyzer:
+        specifier: ^4.5.2
+        version: 4.5.2
       embla-carousel-autoplay:
         specifier: ^8.6.0
         version: 8.6.0(embla-carousel@8.6.0)
@@ -47,9 +50,6 @@ importers:
       recharts:
         specifier: ^3.4.1
         version: 3.4.1(@types/react@19.2.5)(react-dom@19.2.0(react@19.2.0))(react-is@16.13.1)(react@19.2.0)(redux@5.0.1)
-      wavesurfer.js:
-        specifier: ^7.11.1
-        version: 7.11.1
     devDependencies:
       '@tailwindcss/postcss':
         specifier: ^4
@@ -1859,6 +1859,9 @@ packages:
     resolution: {integrity: sha512-hsU18Ae8CDTR6Kgu9DYf0EbCr/a5iGL0rytQDobUcdpYOKokk8LEjVphnXkDkgpi0wYVsqrXuP0bZxJaTqdgoA==}
     engines: {node: '>= 0.4'}
 
+  audiomotion-analyzer@4.5.2:
+    resolution: {integrity: sha512-u72xK+fVS8cjlJpd87w3ZePbtBW9zj/9yMIN95a+ew0eI/aO8UT9oWxSJtp9e5XRDCAdwDzbummc4FDyC2zWPg==}
+
   available-typed-arrays@1.0.7:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
     engines: {node: '>= 0.4'}
@@ -3244,9 +3247,6 @@ packages:
 
   victory-vendor@37.3.6:
     resolution: {integrity: sha512-SbPDPdDBYp+5MJHhBCAyI7wKM3d5ivekigc2Dk2s7pgbZ9wIgIBYGVw4zGHBml/qTFbexrofXW6Gu4noGxrOwQ==}
-
-  wavesurfer.js@7.11.1:
-    resolution: {integrity: sha512-8Q+wwItpjJAlhQ7crQLtKwgfbqqczm5/wx+76K4PptP+MBAjB0OA78+A9OuLnULz/8GpAQ+fKM6s81DonEO0Sg==}
 
   which-boxed-primitive@1.1.1:
     resolution: {integrity: sha512-TbX3mj8n0odCBFVlY8AxkqcHASw3L60jIuF8jFP78az3C2YhmGvqbHBpAjTRH2/xqYunrJ9g1jSyjCjpoWzIAA==}
@@ -5861,6 +5861,8 @@ snapshots:
 
   async-function@1.0.0: {}
 
+  audiomotion-analyzer@4.5.2: {}
+
   available-typed-arrays@1.0.7:
     dependencies:
       possible-typed-array-names: 1.1.0
@@ -7468,8 +7470,6 @@ snapshots:
       d3-shape: 3.2.0
       d3-time: 3.1.0
       d3-timer: 3.0.1
-
-  wavesurfer.js@7.11.1: {}
 
   which-boxed-primitive@1.1.1:
     dependencies:

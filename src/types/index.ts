@@ -17,3 +17,7 @@ export type {
 export type {
   HeroSlide,
 } from './hero';
+
+export type {
+  AzuraCastNowPlaying,
+} from './azuracast';

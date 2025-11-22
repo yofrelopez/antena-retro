@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { Activity, Zap, Server } from "lucide-react";
 import { RadialBarChart, RadialBar, ResponsiveContainer } from "recharts";
 import { dummyLiveData } from "@/lib/dummy-data/live-data";
+import { useNowPlaying } from "@/hooks/useNowPlaying";
+import { getStreamStatus } from "@/lib/adapters/azuracast";
 
 const dummyMetrics = dummyLiveData.metrics;
 
@@ -30,7 +32,25 @@ const statusLabels = {
 };
 
 export function StreamMetrics() {
-  const colors = statusColors[dummyMetrics.status];
+  const { data } = useNowPlaying();
+  
+  // Usar datos reales si están disponibles
+  const streamStatus = data ? getStreamStatus(data) : null;
+  const bitrate = streamStatus?.bitrate ?? dummyMetrics.bitrate;
+  const isOnline = streamStatus?.isOnline ?? true;
+  const format = streamStatus?.format ?? 'mp3';
+  
+  const bitrateData = [
+    {
+      name: "Bitrate",
+      value: (bitrate / dummyMetrics.maxBitrate) * 100,
+      fill: "url(#bitrateGradient)",
+    },
+  ];
+  
+  // Determinar estado basado en si está online
+  const status = isOnline ? 'excellent' : 'poor';
+  const colors = statusColors[status];
 
   return (
     <motion.div
@@ -73,7 +93,7 @@ export function StreamMetrics() {
               </RadialBarChart>
             </ResponsiveContainer>
             <div className="absolute flex flex-col items-center">
-              <span className="text-xl font-bold text-white tabular-nums">{dummyMetrics.bitrate}</span>
+              <span className="text-xl font-bold text-white tabular-nums">{bitrate}</span>
               <span className="text-[10px] text-zinc-500 uppercase tracking-wider">kbps</span>
             </div>
           </div>
@@ -85,7 +105,7 @@ export function StreamMetrics() {
           <div className="flex-1 min-w-0">
             <p className="text-[10px] text-zinc-500 uppercase tracking-wide">Estado</p>
             <p className={`text-xs font-semibold ${colors.text} tabular-nums`}>
-              {statusLabels[dummyMetrics.status]} · {dummyMetrics.ping}ms
+              {isOnline ? 'En línea' : 'Fuera de línea'} · {dummyMetrics.ping}ms
             </p>
           </div>
         </div>
@@ -94,7 +114,7 @@ export function StreamMetrics() {
         <div className="space-y-1.5 mb-3">
           <div className="group flex items-center justify-between p-2 rounded-lg bg-white/3 border border-white/5 hover:bg-white/8 hover:border-white/10 transition-all duration-200">
             <span className="text-[10px] text-zinc-500 uppercase tracking-wide">Codec</span>
-            <span className="text-xs font-mono text-white/90">{dummyMetrics.codec}</span>
+            <span className="text-xs font-mono text-white/90">{format.toUpperCase()}</span>
           </div>
           <div className="group flex items-center justify-between p-2 rounded-lg bg-white/3 border border-white/5 hover:bg-white/8 hover:border-white/10 transition-all duration-200">
             <span className="text-[10px] text-zinc-500 uppercase tracking-wide">Sample Rate</span>

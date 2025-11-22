@@ -5,10 +5,18 @@ import { Users, TrendingUp, Radio, MapPin } from "lucide-react";
 import CountUp from "react-countup";
 import { LineChart, Line, ResponsiveContainer, Tooltip, Area, AreaChart } from "recharts";
 import { dummyLiveData } from "@/lib/dummy-data/live-data";
+import { useNowPlaying } from "@/hooks/useNowPlaying";
+import { getListenerStats } from "@/lib/adapters/azuracast";
 
 const dummyStats = dummyLiveData.listeners;
 
 export function ListenerStats() {
+  const { data } = useNowPlaying();
+  
+  // Usar datos reales para oyentes, mantener dummy para gráficos y ubicaciones
+  const realStats = data ? getListenerStats(data) : null;
+  const currentListeners = realStats?.current ?? dummyStats.current;
+  
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -37,7 +45,7 @@ export function ListenerStats() {
               <p className="text-[10px] text-zinc-500 uppercase tracking-wide">Ahora</p>
             </div>
             <div className="text-2xl font-bold text-white tabular-nums">
-              <CountUp end={dummyStats.current} duration={2} separator="," />
+              <CountUp end={currentListeners} duration={2} separator="," />
             </div>
           </div>
 

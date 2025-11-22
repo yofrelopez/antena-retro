@@ -3,10 +3,23 @@
 import { motion } from "framer-motion";
 import { History, Clock } from "lucide-react";
 import { dummyLiveData } from "@/lib/dummy-data/live-data";
+import { useNowPlaying } from "@/hooks/useNowPlaying";
+import { getSongHistory } from "@/lib/adapters/azuracast";
 
 const dummyHistory = dummyLiveData.history;
 
 export function PlayHistory() {
+  const { data } = useNowPlaying();
+  
+  // Usar datos reales si están disponibles, sino usar dummy
+  const historyData = data ? getSongHistory(data) : dummyHistory;
+  
+  // Formatear tiempo
+  const formatTime = (date: Date | string) => {
+    if (typeof date === 'string') return date;
+    return date.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+  };
+  
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -28,7 +41,7 @@ export function PlayHistory() {
 
         {/* Scrollable Track List */}
         <div className="overflow-y-auto pr-2 space-y-2 max-h-60 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/5 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/10">
-          {dummyHistory.map((track, i) => (
+          {historyData.map((track, i) => (
             <motion.div
               key={track.id}
               initial={{ opacity: 0, x: -20 }}
@@ -39,7 +52,7 @@ export function PlayHistory() {
               {/* Time Badge */}
               <div className="flex items-center gap-1 px-1.5 py-1 rounded-md bg-black/40 border border-white/10 shrink-0">
                 <Clock className="h-2.5 w-2.5 text-zinc-500" />
-                <span className="text-[10px] font-mono text-zinc-400 tabular-nums">{track.playedAt}</span>
+                <span className="text-[10px] font-mono text-zinc-400 tabular-nums">{formatTime(track.playedAt)}</span>
               </div>
 
               {/* Track Info */}
