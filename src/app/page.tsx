@@ -17,7 +17,7 @@ export const metadata: Metadata = generatePageMetadata({
   ],
   url: radioConfig.seo.siteUrl,
   category: "Radio Online",
-  image: "/og-default.jpg",
+  image: "/og-home.jpg",
 });
 
 export default function Home() {
