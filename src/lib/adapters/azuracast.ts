@@ -50,29 +50,39 @@ export function getListenerStats(data: AzuraCastNowPlaying) {
 }
 
 export function getSongHistory(data: AzuraCastNowPlaying) {
-  // Incluir la canción actual como primer elemento
-  const currentSong = {
-    id: `current-${data.now_playing.song.id}`,
-    title: data.now_playing.song.title,
-    artist: data.now_playing.song.artist,
-    album: data.now_playing.song.album,
-    artwork: data.now_playing.song.art,
-    playedAt: new Date(), // Ahora
-    duration: data.now_playing.duration,
-  };
+  const songs = [];
+  
+  // Incluir la canción actual solo si tiene metadata válida
+  const currentTitle = data.now_playing.song.title;
+  if (currentTitle !== 'EDITADO' && currentTitle !== 'Unknown' && currentTitle !== '') {
+    songs.push({
+      id: `current-${data.now_playing.song.id}`,
+      title: data.now_playing.song.title,
+      artist: data.now_playing.song.artist,
+      album: data.now_playing.song.album,
+      artwork: data.now_playing.song.art,
+      playedAt: new Date(),
+      duration: data.now_playing.duration,
+    });
+  }
 
-  // Mapear el historial sin duplicar la canción actual
-  const history = data.song_history.map((item) => ({
-    id: item.song.id,
-    title: item.song.title,
-    artist: item.song.artist,
-    album: item.song.album,
-    artwork: item.song.art,
-    playedAt: new Date(item.played_at * 1000),
-    duration: item.duration,
-  }));
+  // Mapear el historial filtrando canciones sin metadata válida
+  const history = data.song_history
+    .filter((item) => {
+      const title = item.song.title;
+      return title !== 'EDITADO' && title !== 'Unknown' && title !== '';
+    })
+    .map((item) => ({
+      id: item.song.id,
+      title: item.song.title,
+      artist: item.song.artist,
+      album: item.song.album,
+      artwork: item.song.art,
+      playedAt: new Date(item.played_at * 1000),
+      duration: item.duration,
+    }));
 
-  return [currentSong, ...history];
+  return [...songs, ...history];
 }
 
 export function getStreamStatus(data: AzuraCastNowPlaying) {

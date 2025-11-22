@@ -43,7 +43,7 @@ export function PlayHistory() {
         <div className="overflow-y-auto pr-2 space-y-2 max-h-60 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-white/5 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-white/10">
           {historyData.map((track, i) => (
             <motion.div
-              key={track.id}
+              key={`history-${i}-${track.id}`}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: i * 0.05 }}
