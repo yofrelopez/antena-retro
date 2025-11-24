@@ -1,15 +1,9 @@
 "use client";
 
-import type { Metadata } from "next";
 import { Container, ProgramCard } from "@/components/ui";
 import { dummyPrograms, dummyHosts } from "@/lib/dummy-data";
 import { Radio, Users, Calendar, ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
-
-// export const metadata: Metadata = {
-//   title: "Programas y Locutores",
-//   description: "Conoce todos nuestros programas y al equipo de locutores que los hacen posibles.",
-// };
 
 export default function ProgramasPage() {
   const getHostNames = (hostIds: string[]) => {
